@@ -1,0 +1,59 @@
+<html>
+<body>
+<script>
+var nVertices = 4;
+var root = Array(nVertices).fill(0);
+var Infinite = 10;
+function findfn(a)
+{
+	while (root[a] != a)
+		a = root[a];
+	return a;
+}
+function unionfn(a, b)
+{
+	var x = findfn(a);
+	var y = findfn(b);
+	root[x] = y;
+}
+function Krus_kal(Kcost)
+{
+	var m_cost = 0;
+	for (var a = 0; a < nVertices; a++)
+		root[a] = a;
+	var Kedge = 0;
+	while (Kedge < nVertices - 1)
+	{
+		var low = Infinite, x = -1, y = -1;
+		for (var a = 0; a < nVertices; a++)
+		{
+			for (var b = 0; b < nVertices; b++)
+			{
+				if (findfn(a) != findfn(b) && Kcost[a][b] < low)
+				{
+					low = Kcost[a][b];
+					x = a;
+					y = b;
+				}
+			}
+		}
+
+		unionfn(x, y);
+		document.write(`edge ${Kedge++}:(${x},
+		${y}) &nbsp; cost:${low} <br>`);
+		m_cost += low;
+	}
+	document.write(`The Minimum Cost is ${m_cost}`);
+}
+
+var Kcost = [
+	[Infinite, 2, Infinite, 6],
+	[2, Infinite, 3, 8],
+	[Infinite, 3, Infinite, Infinite],
+	[Infinite, 1, 6 , Infinite]];
+Krus_kal(Kcost);
+
+
+</script>
+</body>
+</html>
